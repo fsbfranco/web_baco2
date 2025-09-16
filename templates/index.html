@@ -116,27 +116,27 @@
     /* IMÁGENES DE FONDO CON OVERLAY */
     .slide-1 {
         background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), 
-                    url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&h=1080&fit=crop') center/cover;
+                    url('{{ url_for("static", filename="images/carousel/carousel-01.jpg") }}') center/cover;
     }
 
     .slide-2 {
         background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), 
-                    url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1920&h=1080&fit=crop') center/cover;
+                    url('{{ url_for("static", filename="images/carousel/carousel-02.webp") }}') center/cover;
     }
 
     .slide-3 {
         background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), 
-                    url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=1920&h=1080&fit=crop') center/cover;
+                    url('{{ url_for("static", filename="images/carousel/carousel-03.jpg") }}') center/cover;
     }
 
     .slide-4 {
         background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), 
-                    url('https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=1920&h=1080&fit=crop') center/cover;
+                    url('{{ url_for("static", filename="images/carousel/carousel-04.webp") }}') center/cover;
     }
 
     .slide-5 {
         background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), 
-                    url('https://images.unsplash.com/photo-1555244162-803834f70033?w=1920&h=1080&fit=crop') center/cover;
+                    url('{{ url_for("static", filename="images/carousel/carousel-05.jpg") }}') center/cover;
     }
 
     /* ANIMACIÓN CÍCLICA */
