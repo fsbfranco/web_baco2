@@ -265,8 +265,11 @@
         gap: 1.5rem;
         justify-content: center;
         align-items: center;
-        margin-top: 1rem; /* Reducir margen para que quepan */
+        margin-top: 1rem;
+        margin-bottom: 1.5rem; /* Añadir margen inferior para separar de la siguiente sección */
         width: 100%;
+        z-index: 15; /* Asegurar que estén por encima de otras capas */
+        position: relative;
     }
 
     .social-btn-circle {
@@ -515,6 +518,7 @@
         .hero-content {
             padding: 0 1rem;
             max-width: 95%;
+            top: 50%; /* Centrar mejor el contenido en móvil */
         }
         
         .hero-buttons {
@@ -527,14 +531,19 @@
         .social-buttons {
             gap: 1rem;
             margin-top: 1.5rem;
+            margin-bottom: 2rem; /* Más espacio inferior en móvil */
             width: 100%;
             justify-content: center;
+            position: relative;
+            z-index: 20; /* Z-index alto para asegurar visibilidad */
         }
         
         .social-btn-circle {
             width: 50px;
             height: 50px;
             font-size: 1.3rem;
+            border-width: 2px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
         
         .hero-logo img {
@@ -547,6 +556,7 @@
 
         .content-section {
             padding: 4rem 0;
+            margin-top: 0 !important; /* Asegurar que no haya margen superior */
         }
 
         .why-choose-us {
@@ -563,20 +573,35 @@
         .hero-content {
             padding: 0 1rem;
             max-width: 90%;
+            top: 48%; /* Ajustar posición para móviles pequeños */
         }
         
         .hero-logo img {
             height: 120px;
         }
         
+        .social-buttons {
+            margin-top: 1rem;
+            margin-bottom: 2.5rem; /* Más espacio para evitar que se tapen */
+            gap: 0.8rem;
+        }
+        
         .social-btn-circle {
             width: 45px;
             height: 45px;
             font-size: 1.2rem;
+            border-width: 2px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
         }
         
         .cta {
             padding: 4rem 0;
+        }
+        
+        /* Asegurar separación clara entre carrusel y contenido siguiente */
+        #servicios {
+            margin-top: 0 !important;
+            padding-top: 5rem !important;
         }
     }
 </style>
