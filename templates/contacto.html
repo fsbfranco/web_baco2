@@ -1,0 +1,903 @@
+{% extends "base.html" %}
+
+{% block title %}Contáctanos - Servicios Baco{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* ===== PÁGINA DE CONTACTO ===== */
+    .contact-hero {
+        background: linear-gradient(135deg, var(--charcoal), var(--accent-black));
+        color: white;
+        padding: 6rem 0 6rem;
+        text-align: center;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .contact-hero-content h1 {
+        font-family: var(--font-script);
+        font-size: clamp(3rem, 6vw, 5rem);
+        color: var(--primary-gold);
+        margin-bottom: 1rem;
+    }
+
+    .contact-hero-content p {
+        font-size: 1.3rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .contact-section {
+        padding: 6rem 0;
+        margin-top: 0;
+        background: white;
+    }
+
+    .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: start;
+    }
+
+    .contact-info h2 {
+        color: var(--charcoal);
+        margin-bottom: 2rem;
+    }
+
+    .contact-intro {
+        font-size: 1.1rem;
+        color: var(--dark-gray);
+        margin-bottom: 3rem;
+        line-height: 1.7;
+    }
+
+    .contact-methods {
+        margin-bottom: 3rem;
+    }
+
+    .contact-method {
+        display: flex;
+        align-items: start;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: var(--shadow-light);
+        transition: transform var(--transition-fast);
+    }
+
+    .contact-method:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-medium);
+    }
+
+    .method-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--primary-gold);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+
+    .method-info h3 {
+        color: var(--charcoal);
+        margin-bottom: 0.5rem;
+        font-size: 1.2rem;
+    }
+
+    .method-info p {
+        color: var(--primary-gold);
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+    }
+
+    .method-info small {
+        color: var(--dark-gray);
+        font-size: 0.9rem;
+    }
+
+    /* ===== REDES SOCIALES ===== */
+    .social-section {
+        background: var(--light-gray);
+        padding: 2rem;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .social-section h3 {
+        color: var(--charcoal);
+        margin-bottom: 1rem;
+    }
+
+    .social-section p {
+        color: var(--dark-gray);
+        margin-bottom: 2rem;
+    }
+
+    .social-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .social-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: 500;
+        transition: all var(--transition-fast);
+        color: white;
+    }
+
+    .social-btn.instagram {
+        background: linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045);
+    }
+
+    .social-btn.facebook {
+        background: #1877f2;
+    }
+
+    .social-btn.whatsapp {
+        background: #25d366;
+    }
+
+    .social-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-medium);
+    }
+
+    /* ===== FORMULARIO ===== */
+    .contact-form-section {
+        background: white;
+        border-radius: 12px;
+        box-shadow: var(--shadow-medium);
+        overflow: hidden;
+    }
+
+    .form-container {
+        padding: 3rem;
+    }
+
+    .form-container h2 {
+        color: var(--charcoal);
+        margin-bottom: 1rem;
+    }
+
+    .form-container p {
+        color: var(--dark-gray);
+        margin-bottom: 2rem;
+    }
+
+    .contact-form {
+        display: grid;
+        gap: 1.5rem;
+    }
+
+    .form-group {
+        position: relative;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--charcoal);
+        font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 1rem;
+        border: 2px solid var(--light-gray);
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color var(--transition-fast);
+        font-family: var(--font-secondary);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: var(--primary-gold);
+    }
+
+    .form-icon {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary-gold);
+        pointer-events: none;
+    }
+
+    .form-group:has(textarea) .form-icon {
+        top: 3rem;
+        transform: none;
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    .btn-loading {
+        display: none;
+    }
+
+    .contact-form button[disabled] .btn-loading {
+        display: inline-block;
+    }
+
+    .contact-form button[disabled] span {
+        opacity: 0;
+    }
+
+    /* ===== FAQ ===== */
+    .faq-section {
+        background: var(--light-gray);
+        padding: 6rem 0;
+    }
+
+    .faq-grid {
+        display: grid;
+        gap: 1rem;
+        margin-top: 3rem;
+    }
+
+    .faq-item {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: var(--shadow-light);
+    }
+
+    .faq-question {
+        padding: 1.5rem;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: white;
+        transition: background-color var(--transition-fast);
+    }
+
+    .faq-question:hover {
+        background: var(--off-white);
+    }
+
+    .faq-question h3 {
+        color: var(--charcoal);
+        margin: 0;
+        font-size: 1.1rem;
+    }
+
+    .faq-question i {
+        color: var(--primary-gold);
+        transition: transform var(--transition-fast);
+    }
+
+    .faq-item.active .faq-question i {
+        transform: rotate(45deg);
+    }
+
+    .faq-answer {
+        padding: 0 1.5rem;
+        max-height: 0;
+        overflow: hidden;
+        transition: all var(--transition-fast);
+    }
+
+    .faq-item.active .faq-answer {
+        padding: 0 1.5rem 1.5rem;
+        max-height: 200px;
+    }
+
+    .faq-answer p {
+        color: var(--dark-gray);
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+        .contact-grid {
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+
+        .contact-hero {
+            padding: 6rem 0 4rem;
+        }
+
+        .contact-section {
+            padding: 4rem 0;
+        }
+
+        .faq-section {
+            padding: 4rem 0;
+        }
+
+        .form-container {
+            padding: 2rem;
+        }
+
+        .social-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .social-btn {
+            width: 100%;
+            max-width: 250px;
+            justify-content: center;
+        }
+    }
+
+    /* ===== ESTILOS MEJORADOS ===== */
+    .contact-hero-content h1 .highlight-word {
+        color: var(--primary-gold);
+        font-family: var(--font-script);
+        font-size: 1.1em;
+    }
+
+    .hero-cta-buttons {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        margin-top: 2.5rem;
+        flex-wrap: wrap;
+    }
+
+    .contact-info h2 .highlight-word {
+        color: var(--primary-gold);
+        font-family: var(--font-script);
+        font-size: 1.1em;
+    }
+
+    .featured-method {
+        border: 2px solid var(--primary-gold);
+        background: linear-gradient(135deg, rgba(230, 184, 0, 0.05), rgba(230, 184, 0, 0.1));
+        position: relative;
+    }
+
+    .featured-method::before {
+        content: '⭐ Recomendado';
+        position: absolute;
+        top: -10px;
+        right: 15px;
+        background: var(--primary-gold);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .badge {
+        background: var(--primary-gold);
+        color: white;
+        padding: 3px 8px;
+        border-radius: 10px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        margin-left: 8px;
+    }
+
+    .method-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 10px;
+        padding: 8px 16px;
+        background: var(--primary-gold);
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .method-action:hover {
+        background: var(--dark-gold);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(230, 184, 0, 0.3);
+        color: white;
+        text-decoration: none;
+    }
+
+    .form-container h2 .highlight-word {
+        color: var(--primary-gold);
+        font-family: var(--font-script);
+        font-size: 1.1em;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+        color: #999;
+        font-style: italic;
+    }
+
+    .form-submit {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .submit-btn {
+        background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
+        border: none;
+        padding: 1rem 2.5rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(230, 184, 0, 0.4);
+    }
+
+    .submit-btn:active {
+        transform: translateY(-1px);
+    }
+
+    .form-note {
+        margin-top: 1rem;
+        color: var(--dark-gray);
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .form-note i {
+        color: var(--primary-gold);
+    }
+
+    @media (max-width: 768px) {
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+        
+        .hero-cta-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .contact-grid {
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section para Contacto -->
+<section class="contact-hero">
+    <div class="container">
+        <div class="contact-hero-content">
+            <h1>Hagamos realidad <span class="highlight-word">tu evento</span></h1>
+            <p>Cada detalle cuenta, cada momento importa. Conversemos sobre tu visión y creemos juntos una experiencia inolvidable.</p>
+            <div class="hero-cta-buttons">
+                <a href="https://wa.me/56944295603" target="_blank" class="btn btn-primary">
+                    <i class="fab fa-whatsapp"></i> Hablar por WhatsApp
+                </a>
+                <a href="#contact-form" class="btn btn-secondary">
+                    <i class="fas fa-edit"></i> Enviar formulario
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sección principal de contacto -->
+<section class="contact-section">
+    <div class="container">
+        <div class="contact-grid">
+            <!-- Información de contacto -->
+            <div class="contact-info">
+                <h2>Múltiples formas de <span class="highlight-word">conectar</span></h2>
+                <p class="contact-intro">
+                    Elige el canal que más te convenga. Estamos disponibles para responder tus dudas y comenzar a planificar tu evento perfecto.
+                </p>
+                
+                <div class="contact-methods">
+                    <div class="contact-method featured-method">
+                        <div class="method-icon">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div class="method-info">
+                            <h3>WhatsApp <span class="badge">Respuesta inmediata</span></h3>
+                            <p>+56 9 4429 5603</p>
+                            <small>Disponible 24/7 para consultas urgentes</small>
+                            <a href="https://wa.me/56944295603" target="_blank" class="method-action">
+                                <i class="fab fa-whatsapp"></i> Enviar mensaje
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="method-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="method-info">
+                            <h3>Llamada telefónica</h3>
+                            <p>+56 9 4429 5603</p>
+                            <small>Lunes a Viernes 9:00 - 18:00</small>
+                            <a href="tel:+56944295603" class="method-action">
+                                <i class="fas fa-phone"></i> Llamar ahora
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="method-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="method-info">
+                            <h3>Correo electrónico</h3>
+                            <p>contacto.serviciosbaco@gmail.com</p>
+                            <small>Respuesta en máximo 24 horas</small>
+                            <a href="mailto:contacto.serviciosbaco@gmail.com" class="method-action">
+                                <i class="fas fa-envelope"></i> Enviar email
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="method-icon">
+                            <i class="fab fa-instagram"></i>
+                        </div>
+                        <div class="method-info">
+                            <h3>Instagram</h3>
+                            <p>@banquetesbaco</p>
+                            <small>Síguenos para ver nuestros eventos</small>
+                            <a href="https://www.instagram.com/banquetesbaco/" target="_blank" class="method-action">
+                                <i class="fab fa-instagram"></i> Ver perfil
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Formulario de contacto -->
+            <div class="contact-form-section" id="contact-form">
+                <div class="form-container">
+                    <h2>Cuéntanos sobre <span class="highlight-word">tu evento</span></h2>
+                    <p>Mientras más detalles compartas, mejor podremos ayudarte a crear la experiencia perfecta.</p>
+                    
+                    <form id="contactForm" action="{{ url_for('contacto') }}" method="POST" class="contact-form">
+                        <div class="form-group">
+                            <label for="nombre">Nombre completo *</label>
+                            <input type="text" id="nombre" name="nombre" required>
+                            <div class="form-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Correo electrónico *</label>
+                                <input type="email" id="email" name="email" required placeholder="tu@email.com">
+                                <div class="form-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="telefono">Teléfono *</label>
+                                <input type="tel" id="telefono" name="telefono" required placeholder="+56 9 1234 5678">
+                                <div class="form-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="tipo_evento">Tipo de evento *</label>
+                                <select id="tipo_evento" name="tipo_evento" required>
+                                    <option value="">¿Qué evento planeas?</option>
+                                    <option value="boda">💒 Boda</option>
+                                    <option value="cumpleanos">🎂 Cumpleaños</option>
+                                    <option value="aniversario">💕 Aniversario</option>
+                                    <option value="graduacion">🎓 Graduación</option>
+                                    <option value="corporativo">🏢 Evento Corporativo</option>
+                                    <option value="banquete">🍽️ Banquete Familiar</option>
+                                    <option value="otro">✨ Evento Personalizado</option>
+                                </select>
+                                <div class="form-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="fecha_evento">Fecha tentativa</label>
+                                <input type="date" id="fecha_evento" name="fecha_evento" placeholder="¿Cuándo es el evento?">
+                                <div class="form-icon">
+                                    <i class="fas fa-calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="invitados">Número de invitados</label>
+                                <select id="invitados" name="invitados">
+                                    <option value="">¿Cuántos invitados esperan?</option>
+                                    <option value="15-30">15 - 30 personas</option>
+                                    <option value="30-50">30 - 50 personas</option>
+                                    <option value="50-100">50 - 100 personas</option>
+                                    <option value="100-200">100 - 200 personas</option>
+                                    <option value="200+">Más de 200 personas</option>
+                                </select>
+                                <div class="form-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="presupuesto">Presupuesto aproximado</label>
+                                <select id="presupuesto" name="presupuesto">
+                                    <option value="">Rango de inversión</option>
+                                    <option value="200-500">$200.000 - $500.000</option>
+                                    <option value="500-1000">$500.000 - $1.000.000</option>
+                                    <option value="1000-2000">$1.000.000 - $2.000.000</option>
+                                    <option value="2000+">Más de $2.000.000</option>
+                                    <option value="consultar">Prefiero consultar</option>
+                                </select>
+                                <div class="form-icon">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="invitados">Número de invitados</label>
+                            <input type="number" id="invitados" name="invitados" min="1" placeholder="Ej: 50">
+                            <div class="form-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                        <div class="form-group">
+                            <label for="mensaje">Cuéntanos tu visión *</label>
+                            <textarea id="mensaje" name="mensaje" rows="5" required placeholder="Describe tu evento ideal: ¿Qué ambiente quieres crear? ¿Hay algo especial que quieres incluir? ¿Tienes preferencias de menú? Mientras más detalles compartas, mejor podremos ayudarte..."></textarea>
+                        </div>
+                        
+                        <div class="form-submit">
+                            <button type="submit" class="btn btn-primary btn-large submit-btn">
+                                <i class="fas fa-heart"></i>
+                                <span>Crear mi evento perfecto</span>
+                                <div class="btn-loading">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                </div>
+                            </button>
+                            <p class="form-note">
+                                <i class="fas fa-shield-alt"></i>
+                                Tu información está segura con nosotros y te responderemos en máximo 24 horas.
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sección de FAQ -->
+<section class="faq-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Preguntas Frecuentes</h2>
+            <p>Respuestas a las consultas más comunes sobre nuestros servicios</p>
+        </div>
+        
+        <div class="faq-grid">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>¿Con cuánta anticipación debo reservar?</h3>
+                    <i class="fas fa-plus"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Recomendamos reservar con al menos 4-6 semanas de anticipación, especialmente para eventos en temporada alta. Sin embargo, también podemos manejar eventos con menor tiempo de anticipación según disponibilidad.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>¿Ofrecen menús vegetarianos o veganos?</h3>
+                    <i class="fas fa-plus"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>¡Absolutamente! Creamos menús personalizados que incluyen opciones vegetarianas, veganas, sin gluten y para cualquier restricción alimentaria. Solo háznos saber tus necesidades.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>¿Qué incluye el servicio de banquetería?</h3>
+                    <i class="fas fa-plus"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Nuestro servicio incluye planificación del menú, preparación de alimentos, servicio de meseros, vajilla, cubertería, mantelería, decoración básica y limpieza. Podemos personalizar el paquete según tus necesidades.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>¿Tienen un monto mínimo para eventos?</h3>
+                    <i class="fas fa-plus"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Trabajamos con eventos desde 15 personas. El presupuesto varía según el tipo de evento, menú seleccionado y servicios adicionales. Contáctanos para una cotización personalizada.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // JavaScript para el formulario de contacto y FAQ
+    document.addEventListener('DOMContentLoaded', function() {
+        // FAQ accordion
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            const answer = item.querySelector('.faq-answer');
+            const icon = question.querySelector('i');
+            
+            question.addEventListener('click', () => {
+                const isOpen = item.classList.contains('active');
+                
+                // Cerrar todos los FAQs
+                faqItems.forEach(faq => {
+                    faq.classList.remove('active');
+                    faq.querySelector('i').classList.remove('fa-minus');
+                    faq.querySelector('i').classList.add('fa-plus');
+                });
+                
+                // Abrir el actual si no estaba abierto
+                if (!isOpen) {
+                    item.classList.add('active');
+                    icon.classList.remove('fa-plus');
+                    icon.classList.add('fa-minus');
+                }
+            });
+        });
+        
+        // Formulario de contacto con validación mejorada
+        const form = document.getElementById('contactForm');
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const btnText = submitBtn.querySelector('span');
+        const btnLoading = submitBtn.querySelector('.btn-loading');
+        
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validar campos requeridos
+            const nombre = document.getElementById('nombre').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const telefono = document.getElementById('telefono').value.trim();
+            const tipo_evento = document.getElementById('tipo_evento').value;
+            const mensaje = document.getElementById('mensaje').value.trim();
+            
+            if (!nombre || !email || !telefono || !tipo_evento || !mensaje) {
+                showMessage('Por favor, completa todos los campos obligatorios (marcados con *).' , 'error');
+                return;
+            }
+            
+            // Validar formato de email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showMessage('Por favor, ingresa un email válido.', 'error');
+                return;
+            }
+            
+            // Mostrar estado de carga
+            submitBtn.disabled = true;
+            btnText.style.opacity = '0';
+            btnLoading.style.display = 'block';
+            
+            // Preparar datos del formulario
+            const formData = new FormData(form);
+            
+            // Enviar via AJAX
+            fetch('/api/contacto', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Restaurar botón
+                submitBtn.disabled = false;
+                btnText.style.opacity = '1';
+                btnLoading.style.display = 'none';
+                
+                // Mostrar mensaje de respuesta
+                showMessage(data.message, data.status);
+                
+                // Si fue exitoso, limpiar formulario
+                if (data.status === 'success') {
+                    form.reset();
+                    
+                    // Scroll suave hacia arriba para ver el mensaje
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                
+                // Restaurar botón
+                submitBtn.disabled = false;
+                btnText.style.opacity = '1';
+                btnLoading.style.display = 'none';
+                
+                // Mostrar mensaje de error
+                showMessage('Hubo un problema al enviar tu consulta. Por favor, intenta nuevamente o contáctanos directamente por WhatsApp.', 'error');
+            });
+        });
+        
+        function showMessage(message, type) {
+            // Remover mensajes existentes
+            const existingMessages = document.querySelectorAll('.flash-message');
+            existingMessages.forEach(msg => msg.remove());
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flash-message flash-${type}`;
+            messageDiv.innerHTML = `
+                ${message}
+                <button class="flash-close">&times;</button>
+            `;
+            
+            const mainContent = document.querySelector('.main-content');
+            mainContent.insertBefore(messageDiv, mainContent.firstChild);
+            
+            // Auto-hide después de 5 segundos
+            setTimeout(() => {
+                if (messageDiv.parentNode) {
+                    messageDiv.remove();
+                }
+            }, 5000);
+            
+            // Botón de cerrar
+            messageDiv.querySelector('.flash-close').addEventListener('click', () => {
+                messageDiv.remove();
+            });
+            
+            // Scroll al mensaje
+            messageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    });
+</script>
+{% endblock %}

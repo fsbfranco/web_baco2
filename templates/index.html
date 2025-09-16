@@ -1,0 +1,711 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - Servicios Baco{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* ===== CARRUSEL PRINCIPAL ===== */
+    .carousel-container {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+        top: 0;
+        left: 0;
+    }
+
+    .carousel-track {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 600%; /* Para 15 slides (5 originales x 3 repeticiones) */
+        height: 100%;
+        display: flex;
+        margin: 0;
+        padding: 0;
+        animation: slideShow 300s linear infinite;
+    }
+
+    .carousel-slide {
+        width: 6.67%; /* 100% / 15 slides */
+        height: 100%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 3rem;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        background-size: cover;
+        background-position: center center;
+        transition: transform 0.8s ease;
+        margin: 0;
+    }
+
+    /* OVERLAY OSCURO PARA MEJOR CONTRASTE */
+    .carousel-slide::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.35);
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    /* EFECTO DE DIFUMINADO ENTRE FOTOS */
+    .carousel-slide::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: -10px;
+        bottom: 0;
+        width: 20px;
+        background: linear-gradient(to right, 
+            transparent 0%,
+            rgba(0,0,0,0.1) 30%,
+            rgba(0,0,0,0.3) 50%,
+            rgba(0,0,0,0.1) 70%,
+            transparent 100%);
+        z-index: 2;
+        pointer-events: none;
+    }
+
+    .carousel-slide::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -10px;
+        bottom: 0;
+        width: 20px;
+        background: linear-gradient(to left, 
+            transparent 0%,
+            rgba(0,0,0,0.1) 30%,
+            rgba(0,0,0,0.3) 50%,
+            rgba(0,0,0,0.1) 70%,
+            transparent 100%);
+        z-index: 2;
+        pointer-events: none;
+    }
+
+    /* OVERLAY OSCURO GLOBAL PARA MEJOR CONTRASTE */
+    .carousel-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.35);
+        z-index: 5;
+        pointer-events: none;
+    }
+
+    /* EFECTO HOVER */
+    .carousel-slide:hover {
+        transform: scale(1.05);
+        z-index: 5;
+        transition: transform 0.6s ease;
+    }
+
+    /* IMÁGENES DE FONDO CON OVERLAY */
+    .slide-1 {
+        background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), 
+                    url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&h=1080&fit=crop') center/cover;
+    }
+
+    .slide-2 {
+        background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), 
+                    url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1920&h=1080&fit=crop') center/cover;
+    }
+
+    .slide-3 {
+        background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), 
+                    url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=1920&h=1080&fit=crop') center/cover;
+    }
+
+    .slide-4 {
+        background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), 
+                    url('https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=1920&h=1080&fit=crop') center/cover;
+    }
+
+    .slide-5 {
+        background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), 
+                    url('https://images.unsplash.com/photo-1555244162-803834f70033?w=1920&h=1080&fit=crop') center/cover;
+    }
+
+    /* ANIMACIÓN CÍCLICA */
+    @keyframes slideShow {
+        0%   { transform: translateX(0); }
+        33.33% { transform: translateX(-33.33%); }
+        66.66% { transform: translateX(-66.66%); }
+        100% { transform: translateX(-100%); }
+    }
+
+    /* CONTENIDO SUPERPUESTO EN EL CARRUSEL */
+    .hero-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        z-index: 10;
+        color: white;
+        max-width: 900px;
+        padding: 0 2rem;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hero-logo {
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .hero-logo img {
+        height: 200px;
+        width: auto;
+        filter: drop-shadow(2px 2px 6px rgba(0,0,0,0.7));
+        transition: transform 0.3s ease;
+    }
+
+    .hero-logo img:hover {
+        transform: scale(1.05);
+    }
+
+    .hero-services {
+        font-family: var(--font-primary);
+        font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+        font-weight: 400;
+        line-height: 1.3;
+        margin-bottom: 2.5rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        opacity: 1;
+        letter-spacing: 1.5px;
+        color: white;
+        text-align: center;
+        max-width: 100%;
+    }
+
+    .hero-subtitle {
+        font-family: var(--font-primary);
+        font-size: clamp(1.8rem, 4vw, 3rem);
+        font-weight: 300;
+        line-height: 1.4;
+        margin-bottom: 2.5rem;
+        text-shadow: 2px 2px 5px rgba(0,0,0,0.9);
+        color: white;
+        letter-spacing: 0.3px;
+        text-align: center;
+        max-width: 100%;
+    }
+
+    .highlight-word {
+        font-family: var(--font-script);
+        color: var(--highlight-mustard);
+        font-weight: 500;
+        font-size: 1em;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    }
+
+    .hero-description {
+        font-family: var(--font-script);
+        font-size: clamp(1.3rem, 2.8vw, 1.8rem);
+        margin-bottom: 2.5rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        opacity: 0.9;
+        line-height: 1.4;
+        font-weight: 500;
+        color: white;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        font-style: normal;
+        text-align: center;
+        display: block;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+        width: 100%;
+    }
+
+    /* ===== BOTONES SOCIALES CIRCULARES ===== */
+    .social-buttons {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        align-items: center;
+        margin-top: 2rem;
+        width: 100%;
+    }
+
+    .social-btn-circle {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        background: transparent;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        font-size: 1.5rem;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .social-btn-circle:hover {
+        transform: translateY(-3px) scale(1.1);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        border-color: white;
+        color: white;
+        text-decoration: none;
+    }
+
+    .social-btn-circle.whatsapp:hover {
+        border-color: #25d366;
+        color: #25d366;
+        box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+    }
+
+    .social-btn-circle.instagram:hover {
+        border-color: #e4405f;
+        color: #e4405f;
+        box-shadow: 0 8px 25px rgba(228, 64, 95, 0.4);
+    }
+
+    /* ===== SECCIONES DE CONTENIDO ===== */
+    .content-section {
+        padding: 6rem 0;
+    }
+
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+
+    .service-card {
+        background: white;
+        border-radius: 12px;
+        padding: 2.5rem 2rem;
+        text-align: center;
+        box-shadow: var(--shadow-light);
+        transition: all var(--transition-fast);
+        border: 1px solid rgba(184, 134, 11, 0.1);
+    }
+
+    .service-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-gold);
+        border-color: var(--primary-gold);
+    }
+
+    .service-icon {
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        color: white;
+        font-size: 1.8rem;
+    }
+
+    .service-card h3 {
+        font-family: var(--font-primary);
+        font-size: 1.5rem;
+        color: var(--charcoal);
+        margin-bottom: 1rem;
+        font-weight: 500;
+    }
+
+    .service-card p {
+        color: var(--dark-gray);
+        font-size: 1rem;
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    /* Estilos para tarjeta invertida */
+    .service-card-inverted {
+        background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
+        color: white;
+    }
+
+    .service-card-inverted:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(184, 134, 11, 0.3);
+        border-color: var(--primary-gold);
+    }
+
+    .service-icon-inverted {
+        background: white;
+        color: var(--primary-gold);
+    }
+
+    .service-card-inverted h3 {
+        color: white;
+    }
+
+    .service-card-inverted p {
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* ===== SECCIÓN POR QUÉ ELEGIRNOS ===== */
+    .why-choose-us {
+        background: var(--light-gray);
+        padding: 6rem 0;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+
+    .feature {
+        text-align: center;
+        padding: 2rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: var(--shadow-light);
+        transition: transform var(--transition-fast);
+    }
+
+    .feature:hover {
+        transform: translateY(-5px);
+    }
+
+    .feature-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--primary-gold);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        color: white;
+        font-size: 1.5rem;
+    }
+
+    .feature h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+        color: var(--charcoal);
+    }
+
+    .feature p {
+        color: var(--dark-gray);
+        font-size: 0.95rem;
+        margin: 0;
+    }
+
+    /* ===== CALL TO ACTION ===== */
+    .cta {
+        background: linear-gradient(135deg, var(--charcoal) 0%, var(--accent-black) 100%);
+        color: white;
+        padding: 8rem 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23E6B800" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="%23E6B800" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="%23E6B800" opacity="0.15"/><circle cx="10" cy="60" r="0.5" fill="%23E6B800" opacity="0.15"/><circle cx="90" cy="40" r="0.5" fill="%23E6B800" opacity="0.15"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        pointer-events: none;
+    }
+
+    .cta-content {
+        position: relative;
+        z-index: 2;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .cta-content h2 {
+        font-family: var(--font-primary);
+        font-size: clamp(2.5rem, 5vw, 3.5rem);
+        color: white;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+        line-height: 1.2;
+    }
+
+    .cta-content p {
+        font-family: var(--font-script);
+        font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+        margin-bottom: 3rem;
+        opacity: 0.95;
+        line-height: 1.6;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    .cta-buttons {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .cta .highlight-word {
+        color: var(--primary-gold);
+        font-family: var(--font-script);
+        font-size: 1.1em;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+        .hero-content {
+            padding: 0 1rem;
+            max-width: 95%;
+        }
+        
+        .hero-buttons {
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+        }
+        
+        .social-buttons {
+            gap: 1rem;
+            margin-top: 1.5rem;
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .social-btn-circle {
+            width: 50px;
+            height: 50px;
+            font-size: 1.3rem;
+        }
+        
+        .hero-logo img {
+            height: 150px;
+        }
+        
+        .carousel-slide {
+            font-size: 2rem;
+        }
+
+        .content-section {
+            padding: 4rem 0;
+        }
+
+        .why-choose-us {
+            padding: 4rem 0;
+        }
+
+        .cta {
+            padding: 4rem 0;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- CARRUSEL PRINCIPAL -->
+<div class="carousel-container" style="margin-top: -70px;">
+    <div class="carousel-track">
+        <div class="carousel-slide slide-1"></div>
+        <div class="carousel-slide slide-2"></div>
+        <div class="carousel-slide slide-3"></div>
+        <div class="carousel-slide slide-4"></div>
+        <div class="carousel-slide slide-5"></div>
+        <div class="carousel-slide slide-1"></div>
+        <div class="carousel-slide slide-2"></div>
+        <div class="carousel-slide slide-3"></div>
+        <div class="carousel-slide slide-4"></div>
+        <div class="carousel-slide slide-5"></div>
+        <div class="carousel-slide slide-1"></div>
+        <div class="carousel-slide slide-2"></div>
+        <div class="carousel-slide slide-3"></div>
+        <div class="carousel-slide slide-4"></div>
+        <div class="carousel-slide slide-5"></div>
+    </div>
+    
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="hero-content">
+        <div class="hero-logo">
+            <img src="{{ url_for('static', filename='images/LogoBacoSinFondo4.png') }}" alt="Logo" />
+        </div>
+        <p class="hero-services">Catering ◆ Bodas ◆ Celebraciones ◆ Eventos corporativos ◆ Banquetes</p>
+        <h2 class="hero-subtitle">Sabores <span class="highlight-word">únicos</span>. Momentos <span class="highlight-word">inolvidables</span>.</h2>
+        <p class="hero-description">
+            Con más de 10 años de experiencia, transformamos cada detalle en recuerdos imborrables, creando eventos que reflejan tu estilo y convierten cada ocasión en una experiencia inolvidable.
+        </p>
+        <div class="hero-buttons">
+            <a href="{{ url_for('contacto') }}" class="btn btn-primary">
+                <i class="fas fa-calendar-alt"></i> Planificar mi evento
+            </a>
+            <a href="#servicios" class="btn btn-secondary">
+                <i class="fas fa-utensils"></i> Descubre lo que hacemos
+            </a>
+        </div>
+        
+        <!-- Botones sociales circulares -->
+        <div class="social-buttons">
+            <a href="https://wa.me/56944295603" target="_blank" class="social-btn-circle whatsapp" title="Contáctanos por WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="https://www.instagram.com/banquetesbaco/" target="_blank" class="social-btn-circle instagram" title="Síguenos en Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Sección de Servicios -->
+<section id="servicios" class="content-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Nuestros Servicios</h2>
+            <p>Ofrecemos una gama completa de servicios para hacer de tu evento algo extraordinario</p>
+        </div>
+        
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h3>Catering</h3>
+                <p>Menús diseñados especialmente para tu evento, combinando sabores tradicionales con toques modernos.</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3>Bodas</h3>
+                <p>Organizamos tu día soñado cuidando cada detalle, para que vivas una experiencia única e inolvidable.</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-birthday-cake"></i>
+                </div>
+                <h3>Celebraciones</h3>
+                <p>Cumpleaños, aniversarios y momentos especiales que transformamos en recuerdos imborrables con un servicio a tu medida.</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <h3>Eventos corporativos</h3>
+                <p>Soluciones elegantes y profesionales para empresas, garantizando puntualidad, calidad y una excelente impresión.</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-wine-glass"></i>
+                </div>
+                <h3>Banquetes</h3>
+                <p>Variedad gastronómica con presentaciones impecables que elevan cualquier ocasión, desde reuniones íntimas hasta grandes eventos.</p>
+            </div>
+            
+            <div class="service-card service-card-inverted">
+                <div class="service-icon service-icon-inverted">
+                    <i class="fas fa-magic"></i>
+                </div>
+                <h3>Experiencia a tu medida</h3>
+                <p>Creamos propuestas únicas y personalizadas, ideales para quienes buscan algo novedoso y diferente a lo tradicional.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sección Por Qué Elegirnos -->
+<section id="nosotros" class="why-choose-us">
+    <div class="container">
+        <div class="section-header">
+            <h2>¿Por Qué Elegirnos?</h2>
+            <p>Comprometidos con la excelencia en cada detalle</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-award"></i>
+                </div>
+                <h3>Experiencia</h3>
+                <p>Más de 10 años creando eventos memorables</p>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Atención Familiar</h3>
+                <p>Trato personalizado y cercano en cada proyecto</p>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <h3>Ingredientes Frescos</h3>
+                <p>Utilizamos solo los mejores productos locales</p>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3>Puntualidad</h3>
+                <p>Cumplimos con los tiempos acordados</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Transformemos <span class="highlight-word">juntos</span> tu visión en realidad</h2>
+            <p>Con más de una década de experiencia, estamos listos para crear contigo el evento perfecto que siempre soñaste. Cada detalle cuenta, cada momento importa.</p>
+            <div class="cta-buttons">
+                <a href="{{ url_for('contacto') }}" class="btn btn-primary btn-large">
+                    <i class="fas fa-calendar-alt"></i> Planificar mi evento
+                </a>
+                <a href="https://wa.me/56944295603" target="_blank" class="btn btn-secondary btn-large">
+                    <i class="fab fa-whatsapp"></i> Consulta rápida
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
