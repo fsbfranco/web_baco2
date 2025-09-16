@@ -509,6 +509,83 @@
     }
 
     /* ===== RESPONSIVE ===== */
+    
+    /* Monitores muy pequeños / Laptops básicos (1366x768) */
+    @media (max-height: 800px) and (min-width: 1025px) {
+        .carousel-container {
+            height: calc(100vh - 45px);
+        }
+        
+        .hero-content {
+            top: 45%; /* Subir contenido en pantallas de poca altura */
+            max-width: 80%;
+        }
+        
+        .hero-logo img {
+            height: 160px; /* Logo más pequeño en pantallas bajas */
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1.4rem, 3vw, 2.2rem);
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero-description {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero-buttons {
+            margin-bottom: 0.5rem;
+        }
+        
+        .social-buttons {
+            margin-top: 1rem;
+            margin-bottom: 2.5rem; /* Más espacio para evitar el tapado */
+            gap: 1rem;
+        }
+        
+        .social-btn-circle {
+            width: 50px;
+            height: 50px;
+            font-size: 1.3rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+    }
+    
+    /* Resoluciones de escritorio bajas y laptops pequeños */
+    @media (max-width: 1024px) and (min-width: 769px) {
+        .hero-content {
+            top: 50%; /* Centrar mejor en laptops */
+            max-width: 85%;
+        }
+        
+        .hero-logo img {
+            height: 180px; /* Reducir logo en pantallas medianas */
+        }
+        
+        .social-buttons {
+            margin-top: 1.5rem;
+            margin-bottom: 2rem; /* Más espacio inferior */
+            gap: 1.2rem;
+        }
+        
+        .social-btn-circle {
+            width: 55px;
+            height: 55px;
+            font-size: 1.4rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+        }
+        
+        .hero-description {
+            font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+        }
+    }
+    
     @media (max-width: 768px) {
         .carousel-container {
             height: calc(100vh - 45px); /* Ajustar para navegación más pequeña */
