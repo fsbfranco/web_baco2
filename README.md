@@ -1,84 +1,148 @@
-# Baco - Catering Elegante
+# Servicios Baco - Aplicación Web de Banquetería
 
-Una aplicación web moderna y minimalista para la empresa de catering "Baco", inspirada en el diseño limpio y elegante de catering.com.
+Aplicación web Flask moderna y elegante para Servicios Baco, empresa de banquetería familiar con más de 10 años de experiencia. Diseño inspirado en sitios web premium de catering con carrusel dinámico y formulario de contacto completamente funcional.
 
-## Características
+## ✨ Características Destacadas
 
-- **Diseño Minimalista**: Inspirado en catering.com con espacios limpios
-- **Hero Section Impactante**: Texto prominente y llamadas a la acción
-- **Secciones Elegantes**: Frases poderosas y contenido bien estructurado
-- **Testimonios**: Reseñas de clientes destacadas
-- **Formulario Avanzado**: Sistema de consultas detallado
-- **Responsive Design**: Optimizado para todos los dispositivos
+- **🎨 Diseño Premium**: Navegación minimalista blanca con efectos elegantes
+- **🖼️ Carrusel Dinámico**: 10 imágenes reales de eventos con transiciones suaves
+- **📧 Formulario Funcional**: Sistema de contacto con envío real de emails vía Gmail
+- **📱 Diseño Responsive**: Optimizado para todos los dispositivos
+- **⚡ Navegación Fluida**: Posicionamiento perfecto que ocupa exactamente 100vh
+- **🎯 UX Optimizada**: Contenido del hero posicionado estratégicamente
 
-## Tecnologías
+## 🚀 Tecnologías
 
-- **Backend**: Python Flask
-- **Frontend**: HTML5, CSS3, JavaScript
-- **Estilos**: CSS moderno con Grid y Flexbox
-- **Tipografía**: Fuentes elegantes y legibles
-- **Responsive**: Mobile-first approach
+- **Backend**: Python Flask 3.0.0
+- **Email**: Flask-Mail con Gmail SMTP
+- **Frontend**: HTML5, CSS3, JavaScript vanilla
+- **Estilos**: CSS moderno con efectos glassmorphism
+- **Configuración**: python-dotenv para variables de entorno
+- **Responsive**: Mobile-first con media queries optimizadas
 
-## Estructura del Proyecto
+## 📁 Estructura del Proyecto
 
 ```
 web_baco2/
-├── app.py                 # Aplicación principal Flask
-├── requirements.txt       # Dependencias Python
+├── app.py                          # Aplicación Flask principal
+├── requirements.txt                # Dependencias Python
+├── .env                           # Variables de entorno (no incluido)
+├── .gitignore                     # Archivos ignorados por Git
 ├── static/
-│   ├── css/
-│   │   └── style.css     # Estilos principales
-│   ├── js/
-│   │   └── main.js       # JavaScript personalizado
-│   └── images/           # Imágenes del sitio
+│   └── images/
+│       ├── carousel/              # 10 imágenes reales del carrusel
+│       └── LogoBaco*.png         # Logos de la empresa
 └── templates/
-    ├── base.html         # Template base
-    ├── index.html        # Página de inicio
-    └── contacto.html     # Página de contacto
+    ├── base.html                  # Template base con navegación
+    ├── index.html                 # Página principal con carrusel
+    └── contacto.html              # Formulario de contacto funcional
 ```
 
-## Instalación
+## 🛠️ Instalación y Configuración
 
-1. Crear entorno virtual:
+### 1. Clonar el repositorio
+```bash
+git clone https://github.com/fsbfranco/web_baco2.git
+cd web_baco2
+```
+
+### 2. Crear entorno virtual
 ```bash
 python -m venv venv
 venv\Scripts\activate  # Windows
+source venv/bin/activate  # Linux/Mac
 ```
 
-2. Instalar dependencias:
+### 3. Instalar dependencias
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Ejecutar aplicación:
+### 4. Configurar variables de entorno
+Crear archivo `.env`:
+```env
+FLASK_APP=app.py
+FLASK_ENV=development
+SECRET_KEY=tu_clave_secreta_aqui
+MAIL_USERNAME=contacto.serviciosbaco@gmail.com
+MAIL_PASSWORD=tu_app_password_gmail
+```
+
+### 5. Ejecutar aplicación
 ```bash
 python app.py
 ```
 
-4. Abrir navegador en `http://localhost:5000`
-
-## Configuración
-
-### Variables de Entorno
-
-Crear archivo `.env` con:
+### 6. Abrir en navegador
 ```
-FLASK_APP=app.py
-FLASK_ENV=development
-SECRET_KEY=tu_clave_secreta
-MAIL_USERNAME=tu_email@gmail.com
-MAIL_PASSWORD=tu_password
+http://localhost:5000
 ```
 
-## Diseño
+## 🎨 Características de Diseño
 
-Inspirado en catering.com, el sitio presenta:
-- **Espacios amplios** y diseño limpio
-- **Tipografía elegante** con jerarquía clara
-- **Colores neutros** con acentos dorados
-- **Imágenes de alta calidad** de eventos
-- **Navegación intuitiva** y fluida
+### Navegación
+- **Posición**: Fija arriba del carrusel (no flotante)
+- **Color**: Blanco elegante con efectos blur
+- **Altura**: 50px optimizada para no interferir
+- **Efectos**: Hover dorado y líneas animadas
+- **Responsive**: Adaptable a móviles (45px/40px)
 
-## Licencia
+### Carrusel
+- **Altura**: `calc(100vh - 50px)` para ocupar exactamente la pantalla
+- **Contenido**: Posicionado al 55% para equilibrio perfecto
+- **Imágenes**: 10 fotos reales de eventos con transiciones suaves
+- **Botones sociales**: WhatsApp e Instagram perfectamente visibles
 
-Proyecto privado - Baco Catering Company
+### Formulario de Contacto
+- **Funcionalidad**: Envío real de emails vía Gmail SMTP
+- **Validación**: Frontend y backend completa
+- **AJAX**: Respuesta en tiempo real sin recargar página
+- **Campos**: Nombre, email, teléfono, tipo de evento, fecha, invitados, mensaje
+
+## 📧 Configuración de Email
+
+Para el formulario de contacto funcional:
+1. Crear cuenta de Gmail para la empresa
+2. Activar verificación en 2 pasos
+3. Generar contraseña de aplicación
+4. Configurar variables en `.env`
+
+## 🌟 Últimas Mejoras
+
+- ✅ Navegación cambiada de dorada a blanca con efectos elegantes
+- ✅ Posicionamiento perfecto: navegación + carrusel = 100vh exacto
+- ✅ Contenido del hero reposicionado para mejor balance visual
+- ✅ Eliminados márgenes innecesarios y espacios en blanco
+- ✅ Responsive optimizado para todos los dispositivos
+- ✅ Botones sociales ajustados para perfecta visibilidad
+
+## 📱 Responsive Design
+
+- **Desktop**: Navegación 50px, carrusel optimizado
+- **Tablet**: Navegación 45px, contenido adaptado
+- **Mobile**: Navegación 40px, elementos compactos
+
+## 🚀 Comandos Útiles
+
+```bash
+# Desarrollo
+python app.py
+
+# Producción
+flask run --host=0.0.0.0 --port=5000
+
+# Dependencias
+pip freeze > requirements.txt
+```
+
+## 📞 Información de Contacto
+
+- **Empresa**: Servicios Baco
+- **Experiencia**: Más de 10 años en banquetería
+- **Especialidad**: Catering, bodas, eventos corporativos
+- **Ubicación**: Santiago, Chile
+- **Instagram**: [@banquetesbaco](https://www.instagram.com/banquetesbaco/)
+
+## 📄 Licencia
+
+Proyecto privado - Servicios Baco © 2025
