@@ -85,6 +85,11 @@ Fecha: {datetime.now().strftime('%d/%m/%Y %H:%M')}
     
     return render_template('contacto.html')
 
+@app.route('/google086e21642f4f70ff.html')
+def google_verification():
+    """Ruta para verificación de Google Search Console"""
+    return 'google-site-verification: google086e21642f4f70ff.html'
+
 @app.route('/api/contacto', methods=['POST'])
 def api_contacto():
     """Endpoint para manejar el formulario de contacto via AJAX"""
